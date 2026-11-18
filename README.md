@@ -4,8 +4,8 @@ Nadège Ferrer-Pradines & Julien Desclodure
 
 ## Content
 This repo contains:
--a Quarto markdown .qmd with all commented examples
--a html presentation with its dependencies
+- a Quarto markdown .qmd with all commented examples
+- a html presentation with its dependencies
 
 ## Warning
 As of November 2026, you will **only be able to follow this tutorial with a Windows operating system**, as tau-Argus is not compiled to Linux to date.
