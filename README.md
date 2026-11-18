@@ -1,5 +1,6 @@
 # rtauargus: protecting linked tables calling tau-Argus
 Tutorial presented at uRos2026: https://r-project.ro/conference2026.html
+
 Nadège Ferrer-Pradines & Julien Desclodure
 
 ## Content
