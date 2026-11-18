@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="fr" class="reveal-full-page"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/clipboard.min.js"></script>
+<script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/tabby.min.js"></script>
+<script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/popper.min.js"></script>
+<script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/tippy.umd.min.js"></script>
+<link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/tippy.css" rel="stylesheet">
+<link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/light-border.css" rel="stylesheet">
+<link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Section Confidentialité et secret statistique">
+  <title>rtauargus: protecting linked tables calling tau-Argus</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/reset.css">
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #383a42;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #383a42; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #50a14f; } /* Annotation */
+    code span.at { color: #a626a4; } /* Attribute */
+    code span.bn { color: #986801; } /* BaseN */
+    code span.bu { color: #a626a4; } /* BuiltIn */
+    code span.cf { color: #a626a4; } /* ControlFlow */
+    code span.ch { color: #50a14f; } /* Char */
+    code span.cn { color: #986801; } /* Constant */
+    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
+    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
+    code span.do { color: #e45649; } /* Documentation */
+    code span.dt { color: #a626a4; } /* DataType */
+    code span.dv { color: #986801; } /* DecVal */
+    code span.er { color: #f44747; text-decoration: underline; } /* Error */
+    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
+    code span.fl { color: #986801; } /* Float */
+    code span.fu { color: #4078f2; } /* Function */
+    code span.im { color: #50a14f; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #a626a4; } /* Keyword */
+    code span.op { color: #a626a4; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #a626a4; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #0184bc; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #50a14f; } /* String */
+    code span.va { color: #e45649; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/quarto-ecb4c079cc0553424ebd54c7acefad87.css">
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/insee_clair.css">
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/default.css">
+  <link rel="stylesheet" href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/stylePerso.css">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/line-highlight.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/menu.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/quarto-menu.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/pointer.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/verticator.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/multimodal.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/kePrint.js"></script>
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/lightable.css" rel="stylesheet">
+  <link href="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/pagedtable.css" rel="stylesheet">
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/pagedtable.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://uros-sdc-tutorial-e6fee0.gitlab-pages.insee.fr/_extensions/insee-clair/ressources/revealJs/insee_embleme_couleurs_RVB.svg">
+<script type="text/javascript" src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/confetti.browser.min.js"></script><script type="text/javascript" src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888; display: contents}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none; box-sizing: content-box}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_test {font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow: hidden; height: 1px}
+.MathJax_test.mjx-test-display {display: table!important}
+.MathJax_test.mjx-test-inline {display: inline!important; margin-right: -1px}
+.MathJax_test.mjx-test-default {display: block!important; clear: both}
+.MathJax_ex_box {display: inline-block!important; position: absolute; overflow: hidden; min-height: 0; max-height: none; padding: 0; border: 0; margin: 0; width: 1px; height: 60ex}
+.MathJax_em_box {display: inline-block!important; position: absolute; overflow: hidden; min-height: 0; max-height: none; padding: 0; border: 0; margin: 0; width: 1px; height: 60em}
+.mjx-test-inline .MathJax_left_box {display: inline-block; width: 0; float: left}
+.mjx-test-inline .MathJax_right_box {display: inline-block; width: 0; float: right}
+.mjx-test-display .MathJax_right_box {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.9') format('opentype')}
+@font-face {font-family: MathJax_Main; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.9') format('opentype'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.9') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.9') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.9') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.9') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.9') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.9') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.9') format('woff'), url('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.9') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body class="quarto-light reveal-viewport" style="transition: transform 0.8s; --slide-width: 1920px; --slide-height: 1080px; --slide-scale: 0.5291666666666667; --viewport-width: 1366px; --viewport-height: 635px;"><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+  <div class="reveal has-logo slide focused has-vertical-slides has-horizontal-slides ready" style="--c-theme-color: rgb(15, 65, 122); cursor: none;" role="application" data-transition-speed="slow" data-background-transition="fade"><ul class="verticator" style="--verticator-scale: 1.00; --verticator-tooltip-scale: 1.00; right: 3vmin;"></ul>
+    <div class="slides" style="width: 1920px; height: 1080px; inset: 50% auto auto 50%; transform: translate(-50%, -50%) scale(0.529167);">
+
+<section id="title-slide" data-background-image="_extensions/insee-clair/ressources/revealJs/1_Template-INSEE-Clair_premiere-page.svg" data-background-opacity="1" data-background-size="contain" class="quarto-title-block center present" style="top: 0px; display: block;">
+  <h1 class="title">rtauargus: protecting linked tables calling tau-Argus</h1>
+  <p class="subtitle">Tutorial</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Section Confidentialité et secret statistique 
+</div>
+        <p class="quarto-title-affiliation">
+            INSEE
+          </p>
+    </div>
+</div>
+
+  <p class="date">17/11/2026</p>
+</section>
+<section class="slide level2 stack future" hidden="" aria-hidden="true" style="display: block;">
+
+<!-- _extensions/mon-extension/toc-slide.html -->
+<section id="custom-toc-slide" style="display: block;">
+  <h2>Sommaire</h2>
+  <div class="toc-cards"><div class="toc-card level-1"><a href="#/chapters_1"><p class="card-number card-number-01">01</p><p></p><p class="card-title">Theory</p></a></div>
+<div class="toc-card level-1"><a href="#/chapter_2"><p class="card-number card-number-02">02</p><p></p><p class="card-title">Tools</p></a></div>
+<div class="toc-card level-1"><a href="#/chapter_3"><p class="card-number card-number-03">03</p><p></p><p class="card-title">Prep your data</p></a></div>
+<div class="toc-card level-1"><a href="#/chapter_4"><p class="card-number card-number-04">04</p><p></p><p class="card-title">Protect a table</p></a></div>
+<div class="toc-card level-1"><a href="#/chapter_5"><p class="card-number card-number-05">05</p><p></p><p class="card-title">Protect linked tables</p></a></div>
+<div class="toc-card level-1"><a href="#/chapter_6"><p class="card-number card-number-06">06</p><p></p><p class="card-title">Final words</p></a></div></div>
+</section>
+<!-- _extensions/mon-extension/toc-style.html -->
+<style>
+  #custom-toc-slide {
+    text-align: center;
+  }
+  .toc-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .toc-card {
+    flex: 0 0 calc(20% - 1rem); /* 5 cartes par ligne */
+/*    background: #f8f9fa;*/
+    background: none;
+    border-radius: 8px;
+    padding: 1rem;
+/*    box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .toc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .toc-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+  @media (max-width: 1200px) { .toc-card { flex: 0 0 calc(25% - 1rem); } }
+  @media (max-width: 900px)  { .toc-card { flex: 0 0 calc(33% - 1rem); } }
+  @media (max-width: 600px)  { .toc-card { flex: 0 0 calc(50% - 1rem); } }
+  
+  
+
+  
+</style>
+
+<!-- Ajout des autres parties du support -->
+</section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: block;">
+<section id="chapters_1" class="title-slide slide level1 backgroundTitre_bleu center" data-number="1" style="top: 201.5px; display: block;">
+<h1><span class="header-section-number">01</span><br><span class="title-text">Theory</span></h1>
+
+</section>
+<section id="section_1_1" class="slide level2 backgroundStandard future" data-number="1.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">1.1</span> Statistical disclosure control</h2>
+<div class="enteteAvecTitre">
+<p>Theory</p>
+</div>
+<div style="font-size: 1.4em;">
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<ul>
+<li><strong>Primary suppression</strong>: sensitive cells that need protection according to the statistical agency’s policy
+<ul>
+<li>Should be protected against <em>disclosure</em> and <em>inference</em></li>
+</ul></li>
+<li><strong>Secondary suppression</strong>: valid cells whose suppression is needed so that it is not possible to differentiate primarily suppressed values (<a href="#/" data-modal-type="html" data-modal-url="#somehiddendiv0">example</a>.)
+<ul>
+<li>Secondary suppressed cells must be protected against <em>disclosure</em></li>
+</ul></li>
+<li>A protection interval is ensured on primary suppressed cells only.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="content-box-green">
+<p>With <code>rtauargus</code>, it is possible to compute the primary suppression during the tau-Argus call, but we do not encourage it because of the way <code>tab_multi_manager()</code>
+ works. We prefer to compute beforehand variables that allow to track 
+primary suppression rules all the way to the final product.</p>
+</div>
+<div id="somehiddendiv0" class="hidden">
+<h3>
+Primary and secondary suppression
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Sales (EUR billions) by sector and region</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">220</td>
+<td style="text-align: center; border-bottom: 1px solid black;">420</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">100</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">130</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">450</td>
+<td style="text-align: center; border-bottom: 1px solid black;">550</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Sales (EUR billions) by sector and region</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">220</td>
+<td style="text-align: center; border-bottom: 1px solid black;">420</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(221, 235, 247, 1) !important;">NA</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(221, 235, 247, 1) !important;">NA</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">NA</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(221, 235, 247, 1) !important;">NA</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">450</td>
+<td style="text-align: center; border-bottom: 1px solid black;">550</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="section_1_2" class="slide level2 backgroundStandard future" data-number="1.2" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">1.2</span> Context and objectives</h2>
+<div class="enteteAvecTitre">
+<p>Theory</p>
+</div>
+<div style="font-size: 1.4em;">
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<ul>
+<li>Statistical agencies often disseminate multiple related tables describing the same phenomenon.</li>
+<li>Some tables share <span class="red">common cells</span> that must be protected consistently.</li>
+<li>Protecting each table independently may lead to <span class="red">disclosure risks</span> when information is combined across tables.</li>
+<li>The challenge becomes even more complex in the presence of <span class="red">non-nested hierarchies</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="content-box-green">
+<p><strong>In this tutorial, we focus on:</strong></p>
+<ol type="1">
+<li><strong>Preparation:</strong> using <code>rtauargus</code> (and tau-Argus) require some preping work on data and metadata.</li>
+<li><strong>Parameters:</strong> <code>rtauargus</code> is efficient as long as parameters are used knowingly.</li>
+</ol>
+</div>
+</section>
+<section id="linked-tables" class="slide level2 backgroundStandard future" data-menu-title="Linked tables" data-number="1.3" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">1.3</span> Linked tables</h2>
+<div class="enteteAvecTitre">
+<p>Detecting Links Between Tables</p>
+</div>
+<div style="height: 15px;">
+<div class="large" title="**When are tables considered linked?**">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>When are tables considered linked?</strong></strong></p>
+</div>
+<div class="callout-content">
+<p>Tables are <span class="red bold">linked</span> when they cover compatible statistical fields and share information that can be combined or used to derive confidential values.</p>
+<p>This may occur when:</p>
+<ul>
+<li>They share the same indicator and statistical field:
+<ul>
+<li>Without common breakdown variables, they share their grand total;</li>
+<li>With at least one common breakdown variable, they share one or more margins or cells.</li>
+</ul></li>
+<li>Their indicators are connected by a mathematical relationship, 
+allowing values in one table to be derived from values in another.</li>
+</ul>
+<p>Tables covering distinct, non-complementary statistical fields are considered independent.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="common-relationships-between-linked-tables" class="slide level2 backgroundStandard future" data-menu-title="Common relationships between linked tables" data-number="1.4" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">1.4</span> Common relationships between linked tables</h2>
+<div class="enteteAvecTitre">
+<p>Detecting Links Between Tables</p>
+</div>
+<div class="content-box-purple big.text">
+<p><strong>Common relationships between linked tables</strong></p>
+<ul>
+<li><strong>Shared grand totals:</strong> tables share the same overall total, <a href="#/" data-modal-type="html" data-modal-url="#somehiddendiv">example</a>.</li>
+<li><strong>Common margins:</strong> tables share categories of the same explanatory variable, <a href="#/" data-modal-type="html" data-modal-url="#somehiddendiv2">example</a>.</li>
+<li><strong>Linear relationships:</strong> indicators across tables are linked by mathematical equations, <a href="#/" data-modal-type="html" data-modal-url="#somehiddendiv3">example</a>.</li>
+<li><strong>Hierarchical classifications:</strong> categories are structured into nested levels, <a href="#/" data-modal-type="html" data-modal-url="#somehiddendiv4">example</a>.</li>
+</ul>
+</div>
+<img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/graphviz2.svg" style="width: 55%; height: auto; display: block; margin: auto;">
+<div id="somehiddendiv" class="hidden">
+<h3>
+Shared grand totals
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Table 1: Sales (EUR billions) by sector</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sector</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Industry</td>
+<td style="text-align: center; background-color: white !important;">420</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Services</td>
+<td style="text-align: center; background-color: white !important;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Construction</td>
+<td style="text-align: center; background-color: white !important;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center; background-color: rgba(217, 234, 211, 1) !important;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Table 2: Sales (EUR billions) by region</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Region</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">North</td>
+<td style="text-align: center; background-color: white !important;">450</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">South</td>
+<td style="text-align: center; background-color: white !important;">550</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center; background-color: rgba(217, 234, 211, 1) !important;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="somehiddendiv2" class="hidden">
+<h3>
+Common margins
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Sales (EUR billions) by sector and region</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">220</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">420</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">100</td>
+<td style="text-align: center; border-bottom: 1px solid black;">130</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">450</td>
+<td style="text-align: center; border-bottom: 1px solid black;">550</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 2: Sales (EUR billions) by sector and semester</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">First_semester</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Second_semester</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;">250</td>
+<td style="text-align: center; border-bottom: 1px solid black;">170</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">420</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">180</td>
+<td style="text-align: center; border-bottom: 1px solid black;">170</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">190</td>
+<td style="text-align: center; border-bottom: 1px solid black;">40</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">620</td>
+<td style="text-align: center; border-bottom: 1px solid black;">380</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="somehiddendiv3" class="hidden">
+<h3>
+Linear relationships: T1 = T2 + T3
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Total sales (EUR billions)</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">200</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">220</td>
+<td style="text-align: center; border-bottom: 1px solid black;">420</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">100</td>
+<td style="text-align: center; border-bottom: 1px solid black;">130</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">450</td>
+<td style="text-align: center; border-bottom: 1px solid black;">550</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 2: Domestic sales (EUR billions)</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">180</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">170</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">120</td>
+<td style="text-align: center; border-bottom: 1px solid black;">160</td>
+<td style="text-align: center; border-bottom: 1px solid black;">280</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">80</td>
+<td style="text-align: center; border-bottom: 1px solid black;">100</td>
+<td style="text-align: center; border-bottom: 1px solid black;">180</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">380</td>
+<td style="text-align: center; border-bottom: 1px solid black;">430</td>
+<td style="text-align: center; border-bottom: 1px solid black;">810</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 3: Export sales (EUR billions)</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">North</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">South</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">20</span></td>
+<td style="text-align: center; border-bottom: 1px solid black;">50</td>
+<td style="text-align: center; border-bottom: 1px solid black;">70</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">30</td>
+<td style="text-align: center; border-bottom: 1px solid black;">40</td>
+<td style="text-align: center; border-bottom: 1px solid black;">70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">20</td>
+<td style="text-align: center; border-bottom: 1px solid black;">30</td>
+<td style="text-align: center; border-bottom: 1px solid black;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">70</td>
+<td style="text-align: center; border-bottom: 1px solid black;">120</td>
+<td style="text-align: center; border-bottom: 1px solid black;">190</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="somehiddendiv4" class="hidden">
+<h3>
+Hierarchical classifications
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Sales (EUR billions) by sector</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(221, 235, 247, 1) !important;">420</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 2: Sales (EUR billions) by sub-sector</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sub_sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Manufacturing</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">300</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Energy</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">120</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Trade</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Transport</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Building</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Civil engineering</td>
+<td style="text-align: center; border-bottom: 1px solid black;">80</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewBox="0.00 0.00 834.24 202.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 198)">
+<title>G</title>
+<!-- A -->
+<g id="node1" class="node">
+<title>A</title>
+<polygon fill="#e2e2e2" stroke="black" stroke-width="2" points="448.7,-194 355.04,-194 355.04,-158 448.7,-158 448.7,-194"></polygon>
+<text text-anchor="middle" x="401.87" y="-171.8" font-family="Arial" font-size="14.00">Total : 1 000</text>
+</g>
+<!-- B -->
+<g id="node2" class="node">
+<title>B</title>
+<polygon fill="#ddebf7" stroke="black" points="267.2,-115 166.54,-115 166.54,-79 267.2,-79 267.2,-115"></polygon>
+<text text-anchor="middle" x="216.87" y="-92.8" font-family="Arial" font-size="14.00">Industry : 420</text>
+</g>
+<!-- A&#45;&gt;B -->
+<g id="edge1" class="edge">
+<title>A-&gt;B</title>
+<path fill="none" stroke="black" d="M360.81,-157.91C332.67,-146.2 295.21,-130.61 265.56,-118.27"></path>
+<polygon fill="black" stroke="black" points="266.28,-115.53 257.81,-115.04 264.12,-120.7 266.28,-115.53"></polygon>
+</g>
+<!-- D -->
+<g id="node3" class="node">
+<title>D</title>
+<polygon fill="#ddebf7" stroke="black" points="454.08,-115 349.66,-115 349.66,-79 454.08,-79 454.08,-115"></polygon>
+<text text-anchor="middle" x="401.87" y="-92.8" font-family="Arial" font-size="14.00">Services : 350</text>
+</g>
+<!-- A&#45;&gt;D -->
+<g id="edge2" class="edge">
+<title>A-&gt;D</title>
+<path fill="none" stroke="black" d="M401.87,-157.91C401.87,-147.74 401.87,-134.65 401.87,-123.3"></path>
+<polygon fill="black" stroke="black" points="404.67,-123.04 401.87,-115.04 399.07,-123.04 404.67,-123.04"></polygon>
+</g>
+<!-- G -->
+<g id="node4" class="node">
+<title>G</title>
+<polygon fill="#ddebf7" stroke="black" points="664.49,-115 535.25,-115 535.25,-79 664.49,-79 664.49,-115"></polygon>
+<text text-anchor="middle" x="599.87" y="-92.8" font-family="Arial" font-size="14.00">Construction : 230</text>
+</g>
+<!-- A&#45;&gt;G -->
+<g id="edge3" class="edge">
+<title>A-&gt;G</title>
+<path fill="none" stroke="black" d="M445.81,-157.91C476.19,-146.1 516.71,-130.34 548.57,-117.95"></path>
+<polygon fill="black" stroke="black" points="549.61,-120.55 556.05,-115.04 547.58,-115.33 549.61,-120.55"></polygon>
+</g>
+<!-- C -->
+<g id="node5" class="node">
+<title>C</title>
+<polygon fill="#fce4d6" stroke="black" points="139.62,-36 0.13,-36 0.13,0 139.62,0 139.62,-36"></polygon>
+<text text-anchor="middle" x="69.87" y="-13.8" font-family="Arial" font-size="14.00">Manufacturing : 300</text>
+</g>
+<!-- B&#45;&gt;C -->
+<g id="edge4" class="edge">
+<title>B-&gt;C</title>
+<path fill="none" stroke="black" d="M184.25,-78.91C162.27,-67.4 133.13,-52.14 109.77,-39.9"></path>
+<polygon fill="black" stroke="black" points="110.79,-37.27 102.4,-36.04 108.19,-42.23 110.79,-37.27"></polygon>
+</g>
+<!-- E -->
+<g id="node6" class="node">
+<title>E</title>
+<polygon fill="#fce4d6" stroke="black" points="264.76,-36 168.99,-36 168.99,0 264.76,0 264.76,-36"></polygon>
+<text text-anchor="middle" x="216.87" y="-13.8" font-family="Arial" font-size="14.00">Energy : 120</text>
+</g>
+<!-- B&#45;&gt;E -->
+<g id="edge5" class="edge">
+<title>B-&gt;E</title>
+<path fill="none" stroke="black" d="M216.87,-78.91C216.87,-68.74 216.87,-55.65 216.87,-44.3"></path>
+<polygon fill="black" stroke="black" points="219.67,-44.04 216.87,-36.04 214.07,-44.04 219.67,-44.04"></polygon>
+</g>
+<!-- F -->
+<g id="node7" class="node">
+<title>F</title>
+<polygon fill="#fce4d6" stroke="black" points="380.47,-36 293.27,-36 293.27,0 380.47,0 380.47,-36"></polygon>
+<text text-anchor="middle" x="336.87" y="-13.8" font-family="Arial" font-size="14.00">Trade : 200</text>
+</g>
+<!-- D&#45;&gt;F -->
+<g id="edge6" class="edge">
+<title>D-&gt;F</title>
+<path fill="none" stroke="black" d="M387.45,-78.91C378.36,-68.14 366.5,-54.1 356.56,-42.32"></path>
+<polygon fill="black" stroke="black" points="358.56,-40.35 351.26,-36.04 354.28,-43.96 358.56,-40.35"></polygon>
+</g>
+<!-- H -->
+<g id="node8" class="node">
+<title>H</title>
+<polygon fill="#fce4d6" stroke="black" points="520.31,-36 409.43,-36 409.43,0 520.31,0 520.31,-36"></polygon>
+<text text-anchor="middle" x="464.87" y="-13.8" font-family="Arial" font-size="14.00">Transport : 150</text>
+</g>
+<!-- D&#45;&gt;H -->
+<g id="edge7" class="edge">
+<title>D-&gt;H</title>
+<path fill="none" stroke="black" d="M415.85,-78.91C424.66,-68.14 436.15,-54.1 445.79,-42.32"></path>
+<polygon fill="black" stroke="black" points="448.03,-44.01 450.93,-36.04 443.7,-40.46 448.03,-44.01"></polygon>
+</g>
+<!-- I -->
+<g id="node9" class="node">
+<title>I</title>
+<polygon fill="#fce4d6" stroke="black" points="650.21,-36 549.53,-36 549.53,0 650.21,0 650.21,-36"></polygon>
+<text text-anchor="middle" x="599.87" y="-13.8" font-family="Arial" font-size="14.00">Building : 150</text>
+</g>
+<!-- G&#45;&gt;I -->
+<g id="edge8" class="edge">
+<title>G-&gt;I</title>
+<path fill="none" stroke="black" d="M599.87,-78.91C599.87,-68.74 599.87,-55.65 599.87,-44.3"></path>
+<polygon fill="black" stroke="black" points="602.67,-44.04 599.87,-36.04 597.07,-44.04 602.67,-44.04"></polygon>
+</g>
+<!-- J -->
+<g id="node10" class="node">
+<title>J</title>
+<polygon fill="#fce4d6" stroke="black" points="826.12,-36 679.63,-36 679.63,0 826.12,0 826.12,-36"></polygon>
+<text text-anchor="middle" x="752.87" y="-13.8" font-family="Arial" font-size="14.00">Civil engineering : 80</text>
+</g>
+<!-- G&#45;&gt;J -->
+<g id="edge9" class="edge">
+<title>G-&gt;J</title>
+<path fill="none" stroke="black" d="M633.83,-78.91C656.81,-67.35 687.29,-52 711.66,-39.74"></path>
+<polygon fill="black" stroke="black" points="713.12,-42.14 719.01,-36.04 710.61,-37.14 713.12,-42.14"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<div id="somehiddendiv5" class="hidden">
+<h3>
+Non-nested hierarchies
+</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 1: Sales (EUR billions) by sector</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Industry</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(221, 235, 247, 1) !important;">420</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Services</td>
+<td style="text-align: center; border-bottom: 1px solid black;">350</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Construction</td>
+<td style="text-align: center; border-bottom: 1px solid black;">230</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Total</td>
+<td style="text-align: center; border-bottom: 1px solid black;">1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 2: Sales (EUR billions) by sub-sector</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sub_sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Manufacturing</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">300</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Energy</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 228, 214, 1) !important;">120</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Trade</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Transport</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Building</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Civil engineering</td>
+<td style="text-align: center; border-bottom: 1px solid black;">80</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top" style="width:100%; border-collapse:collapse;">
+<caption>Table 3: Sales (EUR billions) by aggregated sub-sector</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sub_sector</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black;">Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Manufacturing</td>
+<td style="text-align: center; border-bottom: 1px solid black;">300</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Energy / Transport</td>
+<td style="text-align: center; border-bottom: 1px solid black;"><span style="border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(217, 234, 211, 1) !important;">270</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Trade</td>
+<td style="text-align: center; border-bottom: 1px solid black;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid black;">Building</td>
+<td style="text-align: center; border-bottom: 1px solid black;">150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center; border-bottom: 1px solid black;">Civil engineering</td>
+<td style="text-align: center; border-bottom: 1px solid black;">80</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section></section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: none;">
+<section id="chapter_2" class="title-slide slide level1 backgroundTitre_violet center" data-number="2" style="top: 540px; display: none;">
+<h1><span class="header-section-number">02</span><br><span class="title-text">Tools</span></h1>
+
+</section>
+<section id="section_2_1" class="slide level2 backgroundStandard future" data-number="2.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">2.1</span> τ-Argus</h2>
+<div class="enteteAvecTitre">
+<p>Tools</p>
+</div>
+<p><strong>τ-ARGUS is a software program designed to protect statistical tables</strong>.</p>
+<ul>
+<li>A long-standing reference in the SDC tools landscape</li>
+<li>Developped mostly at CBS (Netherlands)</li>
+<li>Current version is open-source</li>
+<li>Runs on Windows only</li>
+</ul>
+</section>
+<section id="section_2_2" class="slide level2 backgroundStandard future" data-number="2.2" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">2.2</span> The <em>rtauargus</em> package</h2>
+<div class="enteteAvecTitre">
+<p>Tools</p>
+</div>
+<p><strong>An R interface to τ-Argus for statistical disclosure control through cell suppression</strong>, enabling seamless integration into R workflows.</p>
+<ul>
+<li><strong>Input generation:</strong> create <code>rda</code>, <code>arb</code>, <code>hst</code> and <code>tab</code> files from R data.</li>
+<li><strong>Batch execution:</strong> generate instructions (<code>arb</code>) and run τ-Argus from the command line.</li>
+<li><strong>Results retrieval:</strong> import τ-Argus outputs directly into R.</li>
+</ul>
+<p>These steps can be performed <span class="red">in a single workflow</span> or <span class="red">independently</span>.</p>
+<p><br></p>
+<div style="font-size: 1.4em;">
+<div title="**Additional features**">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Additional features</strong></strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Protecting <span class="red">multiple tables simultaneously</span>.</li>
+<li>Building hierarchical variables from correspondence tables.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section_2_2" class="slide level2 backgroundStandard future" data-number="2.3" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">2.3</span> The <em>rtauargus</em> package</h2>
+<div class="enteteAvecTitre">
+<p>Tools</p>
+</div>
+<p>Set up the options as following (using your own location for TauArgus.exe) :</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>loc_tauargus <span class="ot">&lt;-</span> <span class="st">"Y:/Logiciels/TauArgus/TauArgus4.2.3/TauArgus.exe"</span></span>
+<span id="cb1-2"><a href=""></a><span class="fu">options</span>(<span class="at">rtauargus.tauargus_exe =</span> loc_tauargus)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</section></section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: none;">
+<section id="chapter_3" class="title-slide slide level1 backgroundTitre_vert center" data-number="3" style="top: 540px; display: none;">
+<h1><span class="header-section-number">03</span><br><span class="title-text">Prep your data</span></h1>
+
+</section>
+<section id="section_3_1" class="slide level2 backgroundStandard future" data-number="3.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">3.1</span> Check-list</h2>
+<div class="enteteAvecTitre">
+<p>Prep your data</p>
+</div>
+<p><strong>From microdata, you need to:</strong></p>
+<ul>
+<li>Compute all frequencies, values and maximum for all cells (inner and margins) using <code>tabulate_micro_data()</code></li>
+<li>Round the frequencies and the values for the purpose of τ-Argus processing</li>
+<li>Compute primary suppression and booleans to track primary suppression according to each rule if need be</li>
+<li>Build the hierarchical files .hrc using <code>write_hrc2()</code></li>
+</ul>
+</section></section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: none;">
+<section id="chapter_4" class="title-slide slide level1 backgroundTitre_jaune center" data-number="4" style="top: 540px; display: none;">
+<h1><span class="header-section-number">04</span><br><span class="title-text">Protect a table</span></h1>
+
+</section>
+<section id="section_4_1" class="slide level2 backgroundStandard future" data-number="4.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">4.1</span> tab_rtauargus()</h2>
+<div class="enteteAvecTitre">
+<p>Protect a table</p>
+</div>
+<p><code>tab_rtauargus()</code> is the heart of the interface between R and τ-Argus.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>TURN_act88_size <span class="ot">&lt;-</span> <span class="fu">tab_rtauargus</span>(</span>
+<span id="cb2-2"><a href=""></a>  <span class="at">tabular=</span>TURN_act88_size,</span>
+<span id="cb2-3"><a href=""></a>  <span class="at">dir_name =</span> <span class="st">"tauargus_files/"</span>,</span>
+<span id="cb2-4"><a href=""></a>  <span class="at">files_name =</span> <span class="st">"TURN_act88_size"</span>,</span>
+<span id="cb2-5"><a href=""></a>  <span class="at">explanatory_vars =</span> <span class="fu">c</span>(<span class="st">"A88"</span>,<span class="st">"SIZE"</span>),</span>
+<span id="cb2-6"><a href=""></a>  <span class="at">secret_var =</span> <span class="st">"is_secret_prim"</span>,</span>
+<span id="cb2-7"><a href=""></a>  <span class="at">value =</span> <span class="st">"VALUE"</span>,</span>
+<span id="cb2-8"><a href=""></a>  <span class="at">freq =</span> <span class="st">"FREQ"</span>,</span>
+<span id="cb2-9"><a href=""></a>  <span class="at">totcode =</span> <span class="fu">c</span>(<span class="at">A88=</span><span class="st">"Total"</span>,<span class="at">SIZE=</span><span class="st">"Total"</span>)</span>
+<span id="cb2-10"><a href=""></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 1.4em;">
+<div title="**Status**">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Status</strong></strong></p>
+</div>
+<div class="callout-content">
+<p>The function returns the data.frame used in the first parameter “tabular” with an additionnal variable <code>Status</code>
+ with the following codes: - V = valid - the only cells whose 
+dissemination is allowed - B = primary secrecy - D = secondary secrecy</p>
+<p>This is a small deviation from the way tau-Argus flags secrecy, as B is commonly the code for dominance.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: none;">
+<section id="chapter_5" class="title-slide slide level1 backgroundTitre_bleu center" data-number="5" style="top: 540px; display: none;">
+<h1><span class="header-section-number">05</span><br><span class="title-text">Protect linked tables</span></h1>
+
+</section>
+<section id="section_5_1" class="slide level2 backgroundStandard future" data-number="5.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">5.1</span> tab_multi_manager()</h2>
+<div class="enteteAvecTitre">
+<p>Protect linked table</p>
+</div>
+<p><code>tab_multi_manager()</code> runs <code>tab_rtauargus()</code> as
+ many times as needed so that all common cells share a common Status. It
+ uses named lists to manage parameters for each table and allow 
+versatility in hierarchy files, total codes, explanatory variables used.
+ Spanning variable names must be consistent throughout the tables, as 
+well as value, freq and secret_var names.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>res <span class="ot">&lt;-</span> <span class="fu">tab_multi_manager</span>(</span>
+<span id="cb3-2"><a href=""></a>  <span class="at">list_tables =</span> list_tab,</span>
+<span id="cb3-3"><a href=""></a>  <span class="at">list_explanatory_vars =</span> list_expl,</span>
+<span id="cb3-4"><a href=""></a>  <span class="at">dir_name =</span> <span class="st">"tauargus_files/multi"</span>,</span>
+<span id="cb3-5"><a href=""></a>  <span class="at">hrc =</span> list_hrc,</span>
+<span id="cb3-6"><a href=""></a>  <span class="at">totcode =</span> total_codes,</span>
+<span id="cb3-7"><a href=""></a>  <span class="at">value =</span> <span class="st">"VALUE"</span>,</span>
+<span id="cb3-8"><a href=""></a>  <span class="at">freq =</span> <span class="st">"FREQ"</span>,</span>
+<span id="cb3-9"><a href=""></a>  <span class="at">secret_var =</span> <span class="st">"is_secret_prim"</span></span>
+<span id="cb3-10"><a href=""></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="section_5_2" class="slide level2 backgroundStandard future" data-number="5.2" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">5.2</span> tab_multi_manager()</h2>
+<div class="enteteAvecTitre">
+<p>Protect linked table</p>
+</div>
+<div style="font-size: 1.4em;">
+<div title="**Status and journal**">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Status and journal</strong></strong></p>
+</div>
+<div class="callout-content">
+<p>It returns a list of data.frame, each containing the original data + 
+secrecy variables named is_secret_x, with x ranging from 1 to the number
+ of iterations. This is the last is_secret_prim that contains the final 
+secrecy status as TRUE/FALSE.</p>
+<p>A journal reports on all the process and a summary of secrecy per table.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section hidden="" aria-hidden="true" class="stack future" style="display: none;">
+<section id="chapter_6" class="title-slide slide level1 backgroundTitre_violet center" data-number="6" style="top: 540px; display: none;">
+<h1><span class="header-section-number">06</span><br><span class="title-text">Final words</span></h1>
+
+</section>
+<section id="section_6_1" class="slide level2 backgroundStandard future" data-number="6.1" aria-hidden="true" style="display: none;">
+<h2><span class="header-section-number">6.1</span> Final words</h2>
+<div class="enteteAvecTitre">
+<p>Final words</p>
+</div>
+<ul>
+<li>Remember: <code>rtauargus</code> may run without any warning or 
+error and produce a SDC pattern, that does not mean your tables are 
+protected, if you forgot hierarchies or named differently variables that
+ describe a same concept. Most of the work is what you do before you 
+call <code>tab_multi_manager()</code>.</li>
+<li>If you need assistance, feel free to open issues on our github repo: https://github.com/InseeFrLab/rtauargus</li>
+<li>We are constantly developping and improving the package functions; for instance, we are working on improving <code>tabulate_micro_data()</code> so that indicators for (n,k) dominance with n&gt;1 could be computed.</li>
+<li>As of today, <code>rtauargus</code> runs only the original tau-Argus
+ and cannot therefore be used in Linux environments (such as Onyxia); we
+ are looking into removing this limit.</li>
+<li>Be sure to keep your package up-to-date :-)</li>
+</ul>
+</section>
+<section id="pageDeFin" class="slide level2 unnumbered backgroundPageFinale future" data-menu-title="Page finale" aria-hidden="true" style="display: none;">
+<h2></h2>
+<div class="columns coordonneesFinales"><div class="column gauche coordonnees" style="width:30%;">
+<ul>
+<li>DG-DMCSI-DMS</li>
+<li>DMGC</li>
+<li><span class="ligneBlancheApres">Section Confidentialité et secret statistique</span></li>
+<li>dg75-dmcsi-confidentialite@insee.fr</li>
+</ul>
+</div><div class="column coordonnees milieu" style="width:30%;">
+
+</div><div class="column coordonnees droite" style="width:30%;">
+
+</div></div>
+
+</section></section>
+    </div>
+      <div class="multimodal" id="multimodal" aria-hidden="true" style="display: none; --mm-maxwidth: 2323px; --mm-maxheight: 1080px; --mm-inversescale: 1.9; --mm-borderwidth: 2px;">
+        <div class="mm-max">
+          <div class="mm-dialog">
+            <button class="mm-close" type="button" aria-hidden="true" data-modal-close="true" aria-label="Close"><svg class="offset" viewport="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(45 12 12)"><line x1="0" y1="12" x2="24" y2="12"></line><line x1="12" y1="0" x2="12" y2="24"></line></g></svg></button>
+            <div class="mm-body"></div>
+          </div>
+        </div>
+      </div>
+    
+  <div class="slide-menu-button"><a href="#"><i class="fas fa-bars"></i></a></div><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/by-sa.png" class="slide-logo"><div class="footer footer-default" style="display: block;">
+
+</div><div class="backgrounds"><div class="slide-background quarto-title-block center present" data-background-hash="nullcontain_extensions/insee-clair/ressources/revealJs/1_Template-INSEE-Clair_premiere-page.svgnullnullnullnullnullnullnull1" data-background-size="contain" style="display: block;" data-loaded="true"><div class="slide-background-content" style="background-size: contain; opacity: 1; background-image: url(&quot;_extensions/insee-clair/ressources/revealJs/1_Template-INSEE-Clair_premiere-page.svg&quot;);"></div></div><div class="slide-background slide level2 stack future" style="display: block;" data-loaded="true"><div class="slide-background-content"></div><div class="slide-background present" style="display: block;" data-loaded="true"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: block;" data-loaded="true"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_bleu center present" style="display: block;" data-loaded="true"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_violet center present" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_vert center present" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_jaune center present" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_bleu center present" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background-content"></div><div class="slide-background title-slide slide level1 backgroundTitre_violet center present" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 backgroundStandard future" style="display: none;"><div class="slide-background-content"></div></div><div class="slide-background slide level2 unnumbered backgroundPageFinale future" style="display: none;"><div class="slide-background-content"></div></div></div></div><div class="slide-number" style="display: block;"><a href="#/title-slide">
+					<span class="slide-number-a">1</span>
+					<span class="slide-number-delimiter">/</span>
+					<span class="slide-number-b">21</span>
+					</a></div><aside class="controls" style="display: block;" data-controls-layout="bottom-right" data-controls-back-arrows="faded"><button class="navigate-left" aria-label="previous slide" disabled="disabled"><div class="controls-arrow"></div></button>
+			<button class="navigate-right highlight enabled" aria-label="next slide"><div class="controls-arrow"></div></button>
+			<button class="navigate-up" aria-label="above slide" disabled="disabled"><div class="controls-arrow"></div></button>
+			<button class="navigate-down" aria-label="below slide" disabled="disabled"><div class="controls-arrow"></div></button></aside><div class="progress" style="display: block;"><span style="transform: scaleX(0);"></span></div><div class="speaker-notes" data-prevent-swipe="" tabindex="0"></div><div class="pause-overlay"><button class="resume-button">Resume presentation</button></div><div style="position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px);" class="aria-status" aria-live="polite" aria-atomic="true">rtauargus: protecting linked tables calling tau-Argus Tutorial Section Confidentialité et secret statistique INSEE 17/11/2026 </div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/line-highlight.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/pdfexport.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/menu.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/quarto-menu.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/pointer.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/confetti.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/verticator.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/multimodal.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/support.js"></script>
+  
+
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/notes.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/search.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/zoom.js"></script>
+  <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":true,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"},{"title":"Plugins","icon":"<i class=\"fa-solid fa-circle-info\"></i>","src":"modulesCompl/customMenu.html"}],"openButton":true,"width":"wide","transitions":true},
+'pointer': {"key":"q","color":"red","pointerSize":16,"alwaysVisible":false},
+'confetti': {"particleCount":50,"angle":90,"spread":45,"startVelocity":45,"decay":0.9,"gravity":1,"drift":0,"ticks":200,"colors":null,"shapes":null,"scalar":1,"zIndex":100,"disableForReducedMotion":false},
+'verticator': {"themetag":"h1","color":"","inversecolor":"","skipuncounted":false,"clickable":true,"position":"auto","offset":"3vmin","autogenerate":true,"tooltip":false,"scale":1},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'slow',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+
+        height: 1080,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealPointer, RevealConfetti, Verticator, Multimodal, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script><div class="slide-menu-wrapper"><nav class="slide-menu slide-menu--left slide-menu--wide" style="font-family: Open Sans;"><ol class="slide-menu-toolbar"><li data-button="0" class="toolbar-panel-button active-toolbar-button" data-panel="Slides"><i class="fas fa-images"></i><br><span class="slide-menu-toolbar-label">Slides</span></li><li data-button="1" class="toolbar-panel-button" data-panel="Custom0"><i class="fas fa-gear"></i><br><span class="slide-menu-toolbar-label">Tools</span></li><li data-button="2" class="toolbar-panel-button" data-panel="Custom1"><i class="fa-solid fa-circle-info"></i><br><span class="slide-menu-toolbar-label">Plugins</span></li><li data-button="3" class="toolbar-panel-button" data-panel="Transitions"><i class="fas fa-sticky-note"></i><br><span class="slide-menu-toolbar-label">Transitions</span></li><li id="close" class="toolbar-panel-button"><i class="fas fa-times"></i><br><span class="slide-menu-toolbar-label">Close</span></li></ol><div data-panel="Slides" class="slide-menu-panel active-menu-panel"><ul class="slide-menu-items"><li class="slide-menu-item future" data-item="0" data-slide-h="0" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">rtauargus: protecting linked tables calling tau-Argus</span></li><li class="slide-menu-item future" data-item="1" data-slide-h="1" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">Sommaire</span></li><li class="slide-menu-item future" data-item="2" data-slide-h="2" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">1 Theory</span></li><li class="slide-menu-item-vertical future" data-item="3" data-slide-h="2" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">1.1 Statistical disclosure control</span></li><li class="slide-menu-item-vertical future" data-item="4" data-slide-h="2" data-slide-v="2"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">1.2 Context and objectives</span></li><li class="slide-menu-item-vertical future" data-item="5" data-slide-h="2" data-slide-v="3"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">Linked tables</span></li><li class="slide-menu-item-vertical future" data-item="6" data-slide-h="2" data-slide-v="4"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">Common relationships between linked tables</span></li><li class="slide-menu-item future" data-item="7" data-slide-h="3" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">2 Tools</span></li><li class="slide-menu-item-vertical future" data-item="8" data-slide-h="3" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">2.1 τ-Argus</span></li><li class="slide-menu-item-vertical future" data-item="9" data-slide-h="3" data-slide-v="2"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">2.2 The rtauargus package</span></li><li class="slide-menu-item-vertical future" data-item="10" data-slide-h="3" data-slide-v="3"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">2.3 The rtauargus package</span></li><li class="slide-menu-item future" data-item="11" data-slide-h="4" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">3 Prep your data</span></li><li class="slide-menu-item-vertical future" data-item="12" data-slide-h="4" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">3.1 Check-list</span></li><li class="slide-menu-item future" data-item="13" data-slide-h="5" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">4 Protect a table</span></li><li class="slide-menu-item-vertical future" data-item="14" data-slide-h="5" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">4.1 tab_rtauargus()</span></li><li class="slide-menu-item future" data-item="15" data-slide-h="6" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">5 Protect linked tables</span></li><li class="slide-menu-item-vertical future" data-item="16" data-slide-h="6" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">5.1 tab_multi_manager()</span></li><li class="slide-menu-item-vertical future" data-item="17" data-slide-h="6" data-slide-v="2"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">5.2 tab_multi_manager()</span></li><li class="slide-menu-item future" data-item="18" data-slide-h="7" data-slide-v="0"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">6 Final words</span></li><li class="slide-menu-item-vertical future" data-item="19" data-slide-h="7" data-slide-v="1"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">6.1 Final words</span></li><li class="slide-menu-item-vertical future" data-item="20" data-slide-h="7" data-slide-v="2"><i class="fas fa-check-circle fa-fw past"></i><i class="fas fa-arrow-alt-circle-right fa-fw active"></i><i class="far fa-circle fa-fw future"></i><span class="slide-menu-item-title">Page finale</span></li></ul></div><div data-panel="Custom0" class="slide-menu-panel slide-menu-custom-panel"><ul class="slide-menu-items">
+<li class="slide-tool-item active" data-item="0"><a href="#" onclick="RevealMenuToolHandlers.fullscreen(event)"><kbd>f</kbd> Fullscreen</a></li>
+<li class="slide-tool-item" data-item="1"><a href="#" onclick="RevealMenuToolHandlers.speakerMode(event)"><kbd>s</kbd> Speaker View</a></li>
+<li class="slide-tool-item" data-item="2"><a href="#" onclick="RevealMenuToolHandlers.overview(event)"><kbd>o</kbd> Slide Overview</a></li>
+<li class="slide-tool-item" data-item="3"><a href="#" onclick="RevealMenuToolHandlers.togglePdfExport(event)"><kbd>e</kbd> PDF Export Mode</a></li>
+<li class="slide-tool-item" data-item="4"><a href="#" onclick="RevealMenuToolHandlers.toggleScrollView(event)"><kbd>r</kbd> Scroll View Mode</a></li>
+<li class="slide-tool-item" data-item="5"><a href="#" onclick="RevealMenuToolHandlers.keyboardHelp(event)"><kbd>?</kbd> Keyboard Help</a></li>
+</ul></div><div data-panel="Custom1" class="slide-menu-panel slide-menu-custom-panel">
+
+  <ul class="slide-menu-items defaultCursor">
+    <li class="slide-tool-item" data-item="0"><a href="#"><kbd>c</kbd> Throw confettis</a></li>
+    <li class="slide-tool-item" data-item="1"><a href="#"><kbd>q</kbd> Toggle pointer</a></li>
+    <li class="slide-tool-item" data-item="2"><a href="#"><kbd>r</kbd> Toggle Scroll View Mode</a></li>
+    <li class="slide-tool-item" data-item="3"><a href="#"><kbd>s</kbd> Activate Speaker View</a></li>
+  </ul>
+
+<div class="messageInfoMenu">
+  <p>Contrairement aux autres rubriques dans le menu, ces raccourcis sont à titre informatif, c'est-à-dire :</p>
+  <ul>
+    <li>non cliquables dans le menu</li>
+    <li>utilisables directement sur les slides</li>
+  </ul>
+</div>
+
+<div class="messageInfoMenu">
+  <p>Il est possible d'utiliser la barre d'espace ou les flèches 
+directionnelles pour naviguer dans le support. Pour plus d'information, 
+consulter la rubrique d'aide en cliquant sur "?".</p>
+  <p>Il est possible de faire un zoom sur la partie d'une slide en cliquant sur <span class="bold">alt+clique gauche</span> de la souris. Il faut refaire la même chose pour dézoomer.</p>
+</div></div><div class="slide-menu-panel" data-panel="Transitions"><ul class="slide-menu-items"><li class="slide-menu-item" data-transition="none" data-item="1">None</li><li class="slide-menu-item" data-transition="fade" data-item="2">Fade</li><li class="slide-menu-item" data-transition="slide" data-item="3">Slide</li><li class="slide-menu-item" data-transition="convex" data-item="4">Convex</li><li class="slide-menu-item" data-transition="concave" data-item="5">Concave</li><li class="slide-menu-item" data-transition="zoom" data-item="6">Zoom</li></ul></div></nav><div class="slide-menu-overlay"></div></div><div class="cursor-dot" style="width: 16px; height: 16px; background-color: red;"></div>
+    
+
+    <div id="footerPersonnalise">
+      <p>
+          <a target="_blank" href="https://www.insee.fr/fr/accueil" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/1_inseeFR_Noir.svg" alt="lien page Insee.fr" title="Page du site de l'Insee" class="logo logo_insee"></a> 
+          <a target="_blank" href="https://bsky.app/profile/insee.fr" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logo_bluesky.png" alt="Lien page bluesky Insee" title="Page Bluesky de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://www.instagram.com/insee_fr/" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logo_instagram.jpg" alt="lien page instagram Insee" title="Page Instagram de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://www.linkedin.com/company/insee?original_referer=" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logoLinkedIn_rond.png" alt="lien page linkedIn Insee" title="Page linkedIn de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://x.com/InseeFr" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logo_X.png" alt="lien page X Insee" title="Page X de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://www.youtube.com/channel/UChCCvJTbZEYsCXyfu27eQ6g" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logoYoutube_rond.png" alt="lien page youtube Insee" title="Chaîne Youtube de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://blog.insee.fr/" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/logo_blog.png" alt="lien blog Insee" title="Blog de l'Insee" class="logo"></a> 
+          <a target="_blank" href="https://www.insee.fr/fr/information/2381941" rel="noopener"><img src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/flux_rss.png" alt="lien flux RSS Insee" title="RSS" class="logo"></a>
+      </p>
+    </div>
+
+    <!--<script src="js/include.js"></script>-->
+    <script src="rtauargus_%20protecting%20linked%20tables%20calling%20tau-Argus_fichiers/miseEnPage.js"></script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copié");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copié");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; min-width: 0px; max-width: none; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-size-adjust: none; font-family: MathJax_Size1, monospace;"></div></div></body></html>

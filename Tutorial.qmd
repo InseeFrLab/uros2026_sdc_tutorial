@@ -1,0 +1,417 @@
+---
+title: "Tutorial"
+author: "Nadège Ferrer-Pradines"
+format: html
+editor: visual
+---
+
+## Environment
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(rtauargus) #We want 1.3.6
+
+data("indiv_dt")
+indiv_dt[82, "TURNOVER"] <- 40000 #We create some dominance
+data("nuts23_fr_corr_table")
+data("activity_corr_table")
+
+options(scipen = 999)
+loc_tauargus <- "Y:/Logiciels/TauArgus/TauArgus4.2.3/TauArgus.exe"
+options(rtauargus.tauargus_exe = loc_tauargus)
+```
+
+## Tabulating fit-for-rtauargus data from microdata
+
+`tabulate_micro_data()` function computes tabular data from microdata and various additional variables to assess primary secrecy.
+
+```{r}
+TURN_act88_size <- tabulate_micro_data(
+  df = indiv_dt,
+  cat_var = c("A88", "SIZE"),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+)
+head(TURN_act88_size)
+```
+
+This can be industrialised for multiple response variables and with hierarchies. Hierarchies are variables that are nested one in the other and therefore should be addressed as a single variable when protected.
+
+```{r}
+TURN_PROD_act_size <- tabulate_micro_data(
+  df = indiv_dt,
+  cat_var = c("SIZE"),
+  hrc_vars = list(
+    ACTIVITY = c("A10","A21")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = c("TURNOVER","PRODUCTION"),
+  marge_label = "Total"
+)
+
+head(TURN_PROD_act_size)
+```
+
+## Prepping the data: rounding and primary secret computation
+
+$\tau$-Argus doesn't accept decimals in frequencies and too many decimals in value may cause unstable results in $\tau$-Argus. We compute rounded variables to run the program. Not rounded variables remain in the tableand may be used for dissemination along with the SDC status that will be computed.
+
+We also would like to keep track of the rules we apply (frequency and dominance).
+
+```{r}
+prepping <- function(df){
+  df |>  mutate(
+    dom = TURNOVER_max/TURNOVER_tot,
+    is_secret_freq = nb_obs > 0 & nb_obs < 3,
+    is_secret_dom = (TURNOVER_max > 0.85*TURNOVER_tot),
+    FREQ = round(nb_obs,0),
+    VALUE = round(TURNOVER_tot,5) 
+  ) |>
+    mutate(
+      is_secret_prim = is_secret_freq | is_secret_dom
+    )
+}
+
+TURN_act88_size <- TURN_act88_size |>
+  prepping()
+
+TURN_act88_size |> count(is_secret_prim)
+```
+
+## Single table protection
+
+`tab_rtauargus()` protects a single table. The SDC status is available in a variable named `Status` and coded B, D, V as in stand-alone $\tau$-Argus outputs.
+
+```{r}
+TURN_act88_size <- tab_rtauargus(
+  tabular=TURN_act88_size,
+  dir_name = "tauargus_files/",
+  files_name = "TURN_act88_size",
+  explanatory_vars = c("A88","SIZE"),
+  secret_var = "is_secret_prim",
+  value = "VALUE",
+  freq = "FREQ",
+  totcode = c(A88="Total",SIZE="Total"),
+  verbose = FALSE
+)
+```
+
+## Hierarchies
+
+### Building .hrc files
+
+Now we want to protect TURNOVER x {A10,A21,size}
+
+We see A10 and A21 as different levels of a same hierarchy.
+
+A hierarchy may be represented as a tree, each level being a branch and last level are leaves. There may be as many levels as needed. A primary secret on a leaf must be protected with a secondary suppression on another leaf from the same branch (or on the branch total, depending on the circumstances)
+
+$\tau$-argus uses specific .hrc files to treat hierarchies.
+
+We first need to produce the .hrc file. It can be done with `write_hrc2()`from any data.frame with one variable for each level of the hierarchy.
+
+```{r}
+hrc_act <- write_hrc2(activity_corr_table |> select(A10,A21) |> distinct(),
+                      file_name="tauargus_files/hrc/hrc_act.hrc")
+file.edit(hrc_act)
+```
+
+Let's build other hierarchies to be used later. The data.frame may be a correspondance table that you have, describing all theoritical cases, or it may be constructed from the microdata:
+
+```{r}
+#From a correspondance table
+hrc_nuts <- write_hrc2(nuts23_fr_corr_table |> 
+                         distinct(),
+                       file_name="tauargus_files/hrc/hrc_nuts.hrc")
+
+#From the microdata indiv_dt
+hrc_act2 <- write_hrc2(
+  indiv_dt |> 
+    select(A10,A21,A88) |> 
+    arrange(A10,A21,A88) |> 
+    distinct(),
+  file_name="tauargus_files/hrc/hrc_act2_md.hrc")
+```
+
+### Single table protection with .hrc
+
+We can now protect our hierarchical table. Let's run it first without `hrc` : primary suppression in ACTIVITY=="I" leads to secondary suppression in E (lowest value, so it was the best candidate considering the parameters).
+
+```{r}
+TURN_PROD_act_size <- TURN_PROD_act_size |>
+  prepping()
+
+head(TURN_PROD_act_size)
+
+TURN_PROD_act_size_hrcunprotected <- tab_rtauargus(
+  TURN_PROD_act_size,
+  dir_name = "tauargus_files/",
+  files_name = "TURN_act_size",
+  explanatory_vars = c("ACTIVITY","SIZE"),
+  secret_var = "is_secret_prim",
+  value = "VALUE",
+  freq = "FREQ",
+  totcode = c(ACTIVITY="Total",SIZE="Total"),
+  verbose = FALSE
+)
+TURN_PROD_act_size_hrcunprotected |> filter(Status != "V") |> kable()
+
+```
+
+Now with the use of the hrc parameter, primary suppression in ACTIVITY=="I" leads to secondary suppression in H because H and I both belong to aggregate ACTIVITY=="GI":
+
+```{r}
+
+TURN_PROD_act_size_hrcprotected <- tab_rtauargus(
+  TURN_PROD_act_size,
+  dir_name = "tauargus_files/",
+  files_name = "TURN_act_size",
+  explanatory_vars = c("ACTIVITY","SIZE"),
+  hrc = c(ACTIVITY = hrc_act),
+  secret_var = "is_secret_prim",
+  value = "VALUE",
+  freq = "FREQ",
+  totcode = c(ACTIVITY="Total",SIZE="Total"),
+  verbose = FALSE
+)
+
+TURN_PROD_act_size_hrcprotected |> filter(Status != "V") |> kable()
+
+```
+
+## Linked tables
+
+### General case
+
+I would like to protect the following tables :
+
+- TURNOVER x {a10,a21,a88,size} = TURNOVER x {ACTIVITY,SIZE}
+
+<!-- -->
+
+- TURNOVER x {a10,a21,a88,size,type} = TURNOVER x {ACTIVITY,SIZE,TYPE}
+
+- TURNOVER x {a10,a21,a88,nuts2,nuts3} = TURNOVER x {ACTIVITY,NUTS}
+
+Let's compute the tables from microdata:
+
+```{r}
+TURN_act_size <- tabulate_micro_data(
+  df = indiv_dt,
+  cat_var = c("SIZE"),
+  hrc_vars = list(
+    ACTIVITY = c("A10","A21","A88")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+) 
+
+TURN_act_size_type <- tabulate_micro_data(
+  df = indiv_dt,
+  cat_var = c("SIZE","TYPE"),
+  hrc_vars = list(
+    ACTIVITY = c("A10","A21","A88")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+) 
+
+TURN_act_nuts <- tabulate_micro_data(
+  df = indiv_dt,
+  hrc_vars = list(
+    ACTIVITY = c("A10","A21","A88"),
+    NUTS = c("NUTS2","NUTS3")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+)
+```
+
+To protect multiple tables at once, we need to work with named lists. The list of tables may be as long as needed (many hundreds tables in a single `tab_multi_manager()` call). Other parameters also work using named lists:
+
+```{r}
+#Tables
+list_tab <- list(
+  TURN_act_size = TURN_act_size,
+  TURN_act_size_type = TURN_act_size_type,
+  TURN_act_nuts = TURN_act_nuts
+) |> 
+  lapply(prepping)
+
+#Explanatory variables
+list_expl <- list(
+  TURN_act_size = c("ACTIVITY","SIZE"),
+  TURN_act_size_type = c("ACTIVITY","SIZE","TYPE"),
+  TURN_act_nuts = c("ACTIVITY","NUTS")
+)
+
+#Total codes
+total_codes <- "Total"
+
+#HRC files
+list_hrc <- list(
+  ACTIVITY = hrc_act2,
+  NUTS = hrc_nuts
+)
+```
+
+Then we call `tab_multi_manager()`. This function calls `tab_rtauargus()`as many times as needed, and most often than not calls it multiple times on each table until all common cells are protected consistently. It returns a list of data.frame, each containing the original data + secrecy variables named `is_secret_x`, with $x$ ranging from 1 to the number of the last iteration. This is the last `is_secret_prim` that contains the final secrecy status.
+
+A journal reports on all the process and a summary of secrecy per table.
+
+```{r}
+res <- tab_multi_manager(
+  list_tables = list_tab,
+  list_explanatory_vars = list_expl,
+  dir_name = "tauargus_files/multi",
+  hrc = list_hrc,
+  totcode = total_codes,
+  value = "VALUE",
+  freq = "FREQ",
+  secret_var = "is_secret_prim"
+)
+file.edit("tauargus_files/multi/journal.txt")
+head(res$TURN_act_size)
+```
+
+### Unnested hierarchies
+
+We create A20 by regrouping B, G and I. A20 still belongs to *some* ACTIVITY hierarchy, but is not nested in A10 because of B not being in GI (GI contains G, H, I). Thus we cannot use `hrc_act`to treat a table with BGI. We compute a new table and a new hierarchy:
+
+```{r}
+TURN_actBGI_size <- tabulate_micro_data(
+  df = indiv_dt |> mutate(A20 = if_else(A21 %in% c("B","G","I"), "BGI",A21)),
+  cat_var = c("SIZE"),
+  hrc_vars = list(
+    ACTIVITY = c("A20")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+) |> 
+  prepping()
+
+hrc_actBGI <- write_hrc2(activity_corr_table |> mutate(A20 = if_else(A21 %in% c("B","G","I"), "BGI",A21)) |> select(A20) |> distinct(),
+                         file_name="tauargus_files/hrc/hrc_actBI.hrc")
+```
+
+We will add them to the bundle of tables we are already treating together. We need to re-run `tab_multi_manager()`each time the tables change, since tables are linked by margins and primary secret on one may lead to secondary secret on the others.
+
+We use the parameter `alt_hrc` to parameter a different hierarchy for TURN_actBGI_size.
+
+```{r}
+list_tabBGI <- list_tab |> append(list(TURN_actBGI_size = TURN_actBGI_size))
+list_explBGI <- list_expl |> append(list(TURN_actBGI_size = c("ACTIVITY","SIZE")))
+list_alt_hrc <- list(
+  TURN_actBGI_size = c(ACTIVITY = hrc_actBGI)
+)
+
+resBGI <- tab_multi_manager(
+  list_tables = list_tabBGI,
+  list_explanatory_vars = list_explBGI,
+  dir_name = "tauargus_files/multi_BGI",
+  hrc = list_hrc,
+  alt_hrc = list_alt_hrc,
+  totcode = total_codes,
+  value = "VALUE",
+  freq = "FREQ",
+  secret_var = "is_secret_prim"
+) |> 
+  imap( ~ {
+    .x %>%
+      rename(is_secret_final = ncol(.x)) 
+  })
+
+file.edit("tauargus_files/multi_BGI/journal.txt")
+```
+
+### Other options
+
+There are many options available to custom your `tab_multi_manager()`call. We'll see three.
+
+#### Protection interval and secrecy summary
+
+Default protection interval is a +-10%. We do not encourage to change it but you may need to, depending on your own SDC policy or some limitations (it may occur that $\tau$-argus cannot find a proper protection pattern with a 10% protection interval for instance): `ip_start`.
+
+Although you already have a secrecy summary in the journal.txt, using `summary_secret` adds to the returned list a list of data.frame with a summary for each table treated.
+
+```{r}
+res_ip <- tab_multi_manager(
+  list_tables = list_tab,
+  list_explanatory_vars = list_expl,
+  dir_name = "tauargus_files/multi_ip",
+  hrc = list_hrc,
+  totcode = total_codes,
+  value = "VALUE",
+  freq = "FREQ",
+  secret_var = "is_secret_prim",
+  ip_start = 2,
+  summary_secret=TRUE
+)
+
+file.edit("tauargus_files/multi_ip/journal.txt")
+file.edit("tauargus_files/multi/journal.txt")
+```
+
+#### Alternative total
+
+We may have a table computed only on some activities. The total of this table is not the supertotal "Total" but the group "BE" for ACTIVITY. We can handle this with `alt_totcode`.
+
+```{r}
+#New table
+TURN_actBE_size_type <- tabulate_micro_data(
+  df = indiv_dt |> filter(A10=="BE"),
+  cat_var = c("SIZE","TYPE"),
+  hrc_vars = list(
+    ACTIVITY = c("A10","A21","A88")
+  ),
+  pond_var = "WEIGHT",
+  resp_var = "TURNOVER",
+  marge_label = "Total"
+) |> filter(ACTIVITY != "Total")
+
+#Building the lists for treatment
+list_tab <- list(
+  TURN_act_size = TURN_act_size,
+  TURN_actBE_size_type = TURN_actBE_size_type,
+  TURN_act_nuts = TURN_act_nuts
+) |> 
+  lapply(prepping)
+
+list_expl <- list(
+  TURN_act_size = c("ACTIVITY","SIZE"),
+  TURN_actBE_size_type = c("ACTIVITY","SIZE","TYPE"),
+  TURN_act_nuts = c("ACTIVITY","NUTS")
+)
+
+hrc_act2 <- write_hrc2(activity_corr_table |> 
+                         mutate(A88 = sub("^0+", "", A88)) |> 
+                         distinct(),
+                       file_name="tauargus_files/hrc/hrc_act2.hrc")
+
+list_hrc <- list(
+  ACTIVITY = hrc_act2,
+  NUTS = hrc_nuts
+)
+
+#Running with alt_totcode
+res_alttot <- tab_multi_manager(
+  list_tables = list_tab,
+  list_explanatory_vars = list_expl,
+  dir_name = "tauargus_files/multi_alttot",
+  hrc = list_hrc,
+  totcode = total_codes,
+  alt_totcode = list(
+    TURN_actBE_size_type = c(ACTIVITY = "BE")
+  ),
+  value = "VALUE",
+  freq = "FREQ",
+  secret_var = "is_secret_prim",
+  summary_secret=TRUE
+)
+```
